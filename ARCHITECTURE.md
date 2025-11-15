@@ -138,7 +138,7 @@ graph TB
         GW_NS[Gateway Resource]
     end
     
-    subgraph "firecell-app / internal-infra"
+    subgraph "internal-infra-app / internal-infra"
         Route_NS[HTTPRoute Resources]
         Cert_NS[Certificate Resources]
         Issuer_NS[CA Issuer]

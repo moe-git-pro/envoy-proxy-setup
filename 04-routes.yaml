@@ -13,7 +13,7 @@ spec:
       namespace: internal-infra
       port: 443
   hostnames:
-    - "testapi.firecell.net"
+    - "testapi.internal-infra.net"
   rules:
     - matches:
         - path:
@@ -40,7 +40,7 @@ spec:
       namespace: internal-infra
       port: 443
   hostnames:
-    - "testapi.firecell.net"
+    - "testapi.internal-infra.net"
   rules:
     - matches:
         - path:

@@ -2,7 +2,7 @@ apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
   name: http-to-https-redirect
-  namespace: firecell-app
+  namespace: internal-infra-app
   labels:
     app: app
     component: redirect-route
@@ -10,10 +10,10 @@ spec:
   parentRefs:
     - kind: Gateway
       name: app-gateway
-      namespace: firecell-app
+      namespace: internal-infra-app
       port: 80
   hostnames:
-    - "testapi.firecell.net"
+    - "testapi.internal-infra.net"
   rules:
     - matches:
         - path:

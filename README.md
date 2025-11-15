@@ -42,7 +42,7 @@ graph TB
         end
         
         subgraph "Certificate Management"
-            CA[CA Issuer<br/>firecell-ca-issuer]
+            CA[CA Issuer<br/>internal-infra-ca-issuer]
             Cert[Certificate<br/>testapi-cert]
             Secret[TLS Secret<br/>testapi-tls]
         end
@@ -111,7 +111,7 @@ chmod +x generate-ca.sh
 
 This script will:
 - Generate a CA private key and certificate
-- Create a Kubernetes secret `internal-infra-ca` in the `internal-infra` namespace
+- Create a Kubernetes secret `internal-infra-ca` in the `internal-infra-app` namespace
 - Store certificates in the `certs/` directory
 
 ### Step 2: Deploy Resources
@@ -172,7 +172,7 @@ Automatically redirects all HTTP traffic to HTTPS:
 
 - **Status Code**: 301 (Permanent Redirect)
 - **Target**: HTTPS on port 443
-- **Hostname**: `testapi.firecell.net`
+- **Hostname**: `testapi.internal-infra.net`
 
 ### Routes (`04-routes.yaml`)
 
@@ -193,15 +193,15 @@ Defines two HTTPRoute resources:
 Creates a cert-manager Issuer that uses the CA certificate:
 
 - **Type**: CA Issuer
-- **Secret**: `firecell-ca` (created by generate-ca.sh)
-- **Namespace**: `firecell-app`
+- **Secret**: `internal-infra-ca` (created by generate-ca.sh)
+- **Namespace**: `internal-infra-app`
 
 #### Certificate (`06-certificate.yaml`)
 
 Defines the TLS certificate for the domain:
 
-- **Domain**: `testapi.firecell.net`
-- **Additional DNS Names**: `app.firecell.net`
+- **Domain**: `testapi.internal-infra.net`
+- **Additional DNS Names**: `app.internal-infra.net`
 - **Validity**: 30 days (720 hours)
 - **Renewal**: 24 hours before expiration
 - **Key Size**: 2048 bits RSA
@@ -231,11 +231,11 @@ kubectl get gateway -n internal-infra-app
 kubectl get httproute -A
 
 # Check Certificate status
-kubectl get certificate -n firecell-app
-kubectl describe certificate testapi-cert -n firecell-app
+kubectl get certificate -n internal-infra-app
+kubectl describe certificate testapi-cert -n internal-infra-app
 
 # Check TLS Secret
-kubectl get secret testapi-tls -n firecell-app
+kubectl get secret testapi-tls -n internal-infra-app
 
 # Check LoadBalancer service
 kubectl get svc app-gateway-lb -n envoy-gateway-system
@@ -248,8 +248,8 @@ kubectl describe gateway app-gateway -n internal-infra-app
 
 Once deployed, you can access your services:
 
-- **Frontend**: `https://testapi.firecell.net/`
-- **API**: `https://testapi.firecell.net/api`
+- **Frontend**: `https://testapi.internal-infra.net/`
+- **API**: `https://testapi.internal-infra.net/api`
 
 HTTP requests will automatically redirect to HTTPS.
 
@@ -266,7 +266,7 @@ HTTP requests will automatically redirect to HTTPS.
 
 ```bash
 # Check certificate status
-kubectl describe certificate testapi-cert -n firecell-app
+kubectl describe certificate testapi-cert -n internal-infra-app
 
 # Check cert-manager logs
 kubectl logs -n cert-manager -l app=cert-manager

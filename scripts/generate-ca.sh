@@ -17,10 +17,10 @@ openssl req -x509 -new -nodes -key ca.key \\
 echo "Creating Kubernetes secret for CA..."
 microk8s kubectl create secret tls internal-infra-ca \\
   --cert=ca.crt --key=ca.key \\
-  --namespace=internal-infra \\
+  --namespace=internal-infra-app \\
   --dry-run=client -o yaml | microk8s kubectl apply -f -
 
 # Verify secret creation
-microk8s kubectl get secret internal-infra-ca -n internal-infra
+microk8s kubectl get secret internal-infra-ca -n internal-infra-app
 
 echo "CA generation completed successfully!"
