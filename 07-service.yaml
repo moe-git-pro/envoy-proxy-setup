@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: app-gateway-lb
+  namespace: envoy-gateway-system
+  annotations:
+    metallb.universe.tf/address-pool: fixed-ip-pool
+    metallb.universe.tf/loadBalancerIPs: 192.168.30.110
+spec:
+  selector:
+    gateway.envoyproxy.io/owning-gateway-name: app-gateway
+  ports:
+  - name: http
+    protocol: TCP
+    port: 80
+    targetPort: 10080
+    nodePort: 30080
+  - name: https
+    protocol: TCP
+    port: 443
+    targetPort: 10443
+    nodePort: 30443
+  type: LoadBalancer

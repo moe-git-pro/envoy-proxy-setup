@@ -1,0 +1,25 @@
+# Certificate files (sensitive)
+certs/
+*.key
+*.crt
+*.pem
+*.p12
+*.pfx
+
+# Kubernetes secrets
+*.secret.yaml
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+

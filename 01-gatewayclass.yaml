@@ -1,0 +1,10 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: GatewayClass
+metadata:
+  name: envoy-gateway
+  labels:
+    app: envoy-gateway
+    component: gateway-class
+spec:
+  controllerName: gateway.envoyproxy.io/gatewayclass-controller
+  description: "GatewayClass for Envoy Gateway"

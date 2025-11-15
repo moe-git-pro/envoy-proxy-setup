@@ -1,0 +1,23 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: testapi-cert
+  namespace: firecell-app
+  labels:
+    app: app
+    component: tls-certificate
+spec:
+  secretName: testapi-tls
+  renewBefore: 24h  # Renew 24 hours before expiration
+  duration: 720h    # 30 days validity
+  issuerRef:
+    name: firecell-ca-issuer
+    kind: Issuer
+  commonName: testapi.firecell.net
+  dnsNames:
+    - testapi.firecell.net
+    - app.firecell.net
+  privateKey:
+    algorithm: RSA
+    encoding: PKCS1
+    size: 2048

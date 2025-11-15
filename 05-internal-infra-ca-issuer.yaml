@@ -1,0 +1,11 @@
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: firecell-ca-issuer
+  namespace: firecell-app
+  labels:
+    app: app
+    component: ca-issuer
+spec:
+  ca:
+    secretName: firecell-ca
